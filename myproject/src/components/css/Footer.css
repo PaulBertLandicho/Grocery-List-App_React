@@ -1,0 +1,47 @@
+/* Footer */
+
+.footer {
+  display: flex;
+  justify-content: space-around; 
+  position: fixed; 
+  bottom: 0; 
+  width: 100%; 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: green;
+  z-index: 1000; 
+  text-align: center; 
+}
+
+.nav {
+  flex: 1; 
+  display: flex;
+  justify-content: center; 
+}
+
+.nav a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  width: 100px; 
+}
+
+.nav a:hover {
+  background-color: #111; 
+}
+
+
+.fas{
+  font-size: 25px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.nav a span {
+  display: block;
+  margin-top: 8px; 
+}

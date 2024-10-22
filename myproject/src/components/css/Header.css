@@ -1,0 +1,20 @@
+/* Header */
+
+.name h1{
+    color:  green;
+    font-size: 30px;
+    text-align: left;
+    margin-left: 10px;
+  
+    
+  }
+
+  .logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 5px;
+  }
+  
