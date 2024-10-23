@@ -6,11 +6,17 @@
   align-items: center;
   border: 1px solid #ccc;
   width: 130px;
-  margin-left: 30px;
-  margin-right: 5px;
-  padding: 10px;
+  margin-left: 10px;
+  margin-right: 18px;
+  padding: 10px 25px;
   background-color: #fff;
   box-shadow: 0 10px 20px rgba(0, 2, 2, 2.1);
+}
+
+.grocery-item h4,
+.grocery-item p
+ {
+  color: black; 
 }
 
 .grocery-item-placeholder {
@@ -63,3 +69,17 @@
 .edit:hover {
   background-color: darkgreen;
 }
+
+
+.grocery {
+  position: relative; 
+}
+
+.add-to-cart-icon {
+  position: absolute;
+  top: 5px;
+  left: 50px;
+  cursor: pointer;
+  z-index: 1; 
+}
+
