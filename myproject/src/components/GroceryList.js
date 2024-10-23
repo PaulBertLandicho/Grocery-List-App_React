@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import GroceryFormModal from "./GroceryFormModal";
 import GroceryItem from "./GroceryItem";
-
+import { FaMoon, FaSun } from "react-icons/fa"; // Import icons for dark/light mode
 import "./css/GroceryList.css";
 
 // Import static images
@@ -9,30 +9,32 @@ import apple from "./images/apple.png";
 import banana from "./images/banana.png";
 
 const GroceryList = () => {
+
   // Initial static items with imported images
   const staticItems = [
     {
       id: 1,
-      name: "Apples",
+      name: "Apple",
       price: 3.99,
       image: apple,
     },
     {
       id: 2,
-      name: "Bananas",
+      name: "Banana",
       price: 1.99,
       image: banana,
     },
   ];
 
   const [groceryItems, setGroceryItems] = useState(staticItems);
+  const [cartItems, setCartItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Search term state
-  const [sortCriteria, setSortCriteria] = useState("name"); // Sort by 'name', 'price', etc.
-  const [sortOrder, setSortOrder] = useState("asc"); // Sort order state (ascending or descending)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortCriteria, setSortCriteria] = useState("name");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [isDarkMode, setIsDarkMode] = useState(false); 
 
-  // Load items from localStorage when the component mounts or page is reloaded
   useEffect(() => {
     const savedItems = localStorage.getItem("groceryItems");
     if (savedItems) {
@@ -40,7 +42,6 @@ const GroceryList = () => {
     }
   }, []);
 
-  // Save items to localStorage whenever groceryItems state changes
   useEffect(() => {
     localStorage.setItem("groceryItems", JSON.stringify(groceryItems));
   }, [groceryItems]);
@@ -65,7 +66,7 @@ const GroceryList = () => {
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false);
-    setCurrentItem(null); // Reset currentItem when closing modal
+    setCurrentItem(null);
   };
 
   const handleEdit = (item) => {
@@ -73,12 +74,10 @@ const GroceryList = () => {
     openModal();
   };
 
-  // Filter grocery items based on search term
   const filteredItems = groceryItems.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Sort the filtered items based on selected sortCriteria (name or price) and sortOrder (asc or desc)
   const sortedItems = [...filteredItems].sort((a, b) => {
     if (sortCriteria === "name") {
       return sortOrder === "asc"
@@ -87,22 +86,39 @@ const GroceryList = () => {
     } else if (sortCriteria === "price") {
       return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
     }
-    return 0; 
+    return 0;
   });
 
-  // Toggle sort order between ascending and descending
   const toggleSortOrder = () => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
-  // Handle sorting criteria change (name, price, etc.)
   const handleSortCriteriaChange = (e) => {
     setSortCriteria(e.target.value);
-    setSortOrder("asc"); // Reset to ascending when criteria changes
+    setSortOrder("asc");
   };
+
+  const addToCart = (item) => {
+    setCartItems([...cartItems, item]);
+  };
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  // Set dark mode class on body
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <div>
+      {/* Dark Mode Toggle Button */}
+      <div className="dark-mode-toggle" onClick={toggleDarkMode}>
+        {isDarkMode ? <FaSun size={15} /> : <FaMoon size={15} />}
+      </div>
+
       {/* Search Bar */}
       <div className="search-bar">
         <input
@@ -145,7 +161,6 @@ const GroceryList = () => {
         currentItem={currentItem}
       />
 
-      {/* Make this container scrollable */}
       <div className="grocery-list-container">
         <div className="grocery-list">
           {sortedItems.map((item) => (
@@ -154,6 +169,7 @@ const GroceryList = () => {
               item={item}
               onEdit={handleEdit}
               onDelete={deleteItem}
+              onAddToCart={addToCart}
             />
           ))}
         </div>
